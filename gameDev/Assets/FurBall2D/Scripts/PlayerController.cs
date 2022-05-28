@@ -4,20 +4,23 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 	
 	public float maxSpeed = 6f;
-	public float jumpForce = 1000f;
+	public float jumpForce = 15f;
 	public Transform groundCheck;
 	public LayerMask whatIsGround;
 	public float verticalSpeed = 20;
 	[HideInInspector]
 	public bool lookingRight = true;
 	bool doubleJump = false;
-	public GameObject Boost;
-	
+    public GameObject Boost;
+	[SerializeField] private float speed = 5f;
+	[SerializeField] private float lives = 3;
+
 	private Animator cloudanim;
 	public GameObject Cloud;
 
 
-	private Rigidbody2D rb2d;
+    private Rigidbody2D rb2d;
+	private SpriteRenderer sprite;
 	private Animator anim;
 	private bool isGrounded = false;
 
@@ -25,7 +28,8 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
-		anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
+		sprite = GetComponentInChildren<SpriteRenderer>();
 		//cloudanim = GetComponent<Animator>();
 
 		Cloud = GameObject.Find("Cloud");
@@ -33,36 +37,51 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-	void OnCollisionEnter2D(Collision2D collision2D) {
-		
-		if (collision2D.relativeVelocity.magnitude > 20){
+	void OnCollisionEnter2D(Collision2D collision2D)
+	{
+
+		if (collision2D.relativeVelocity.magnitude > 20)
+		{
 			Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
-		//	cloudanim.Play("cloud");	
+			//	cloudanim.Play("cloud");	
 
 		}
 	}
 
+	private void Run()
+	{
+		Vector3 dir = transform.right * Input.GetAxis("Horizontal");
 
-	
+		transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, speed * Time.deltaTime);
+
+		sprite.flipX = dir.x < 0.0f;
+	}
+
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 
-	if (Input.GetButtonDown("Jump") && (isGrounded || !doubleJump))
+		if (Input.GetButton("Horizontal"))
 		{
-			rb2d.AddForce(new Vector2(0,jumpForce));
+			Run();
+		}
+
+		if (Input.GetButtonDown("Jump") && (isGrounded || !doubleJump))
+		{
+			rb2d.AddForce(new Vector2(0, jumpForce));
 
 			if (!doubleJump && !isGrounded)
 			{
 				doubleJump = true;
 				Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
-			//	cloudanim.Play("cloud");		
+				//	cloudanim.Play("cloud");		
 			}
 		}
 
 
-	if (Input.GetButtonDown("Vertical") && !isGrounded)
+		if (Input.GetButtonDown("Vertical") && !isGrounded)
 		{
-			rb2d.AddForce(new Vector2(0,-jumpForce));
+			rb2d.AddForce(new Vector2(0, -jumpForce));
 			Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
 			//cloudanim.Play("cloud");
 		}
@@ -72,28 +91,28 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		if (isGrounded) 
+		if (isGrounded)
 			doubleJump = false;
 
 
-		float hor = Input.GetAxis ("Horizontal");
+		float hor = Input.GetAxis("Horizontal");
 
-		anim.SetFloat ("Speed", Mathf.Abs (hor));
+		anim.SetFloat("Speed", Mathf.Abs(hor));
 
-		rb2d.velocity = new Vector2 (hor * maxSpeed, rb2d.velocity.y);
-		  
-		isGrounded = Physics2D.OverlapCircle (groundCheck.position, 0.15F, whatIsGround);
+		rb2d.velocity = new Vector2(hor * maxSpeed, rb2d.velocity.y);
 
-		anim.SetBool ("IsGrounded", isGrounded);
+		isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.15F, whatIsGround);
 
-		if ((hor > 0 && !lookingRight)||(hor < 0 && lookingRight))
-			Flip ();
-		 
-		anim.SetFloat ("vSpeed", GetComponent<Rigidbody2D>().velocity.y);
+		anim.SetBool("IsGrounded", isGrounded);
+
+		if ((hor > 0 && !lookingRight) || (hor < 0 && lookingRight))
+			Flip();
+
+		anim.SetFloat("vSpeed", GetComponent<Rigidbody2D>().velocity.y);
 	}
 
 
-	
+
 	public void Flip()
 	{
 		lookingRight = !lookingRight;
@@ -101,5 +120,4 @@ public class PlayerController : MonoBehaviour {
 		myScale.x *= -1;
 		transform.localScale = myScale;
 	}
-
 }
