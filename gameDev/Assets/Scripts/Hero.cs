@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+public class Hero : Entity
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float lives = 3;
+    [SerializeField] private float speed = 6f;
+    [SerializeField] private float lives = 5f;
     [SerializeField] private float jumpForce = 15f;
     private bool isGrounded = false;
     public GameObject Boost;
@@ -15,10 +15,24 @@ public class Hero : MonoBehaviour
     private Animator cloudanim;
     public GameObject Cloud;
 
+    public static Hero Instance { get; set; }
+
     private Animator anim;
+
+    public override void GetDamage()
+    {
+        lives -= 1;
+        Debug.Log(lives);
+
+        /*if(lives < 1)
+        {
+            Die();
+        }*/
+    }
 
     private void Awake()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponent<Animator>();
