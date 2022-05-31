@@ -8,6 +8,7 @@ public class Hero : Entity
     [SerializeField] private float lives = 5f;
     [SerializeField] private float jumpForce = 15f;
     private bool isGrounded = false;
+    public bool faceRight = true;
     public GameObject Boost;
 
     private Rigidbody2D rb;
@@ -30,6 +31,12 @@ public class Hero : Entity
         }*/
     }
 
+    private States State
+    {
+        get { return (States)anim.GetInteger("state"); }
+        set { anim.SetInteger("state", (int)value); }
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -47,6 +54,7 @@ public class Hero : Entity
 
     private void Update()
     {
+        if (isGrounded) State = States.idle;
         if (Input.GetButton("Horizontal"))
         {
             Run();
@@ -59,16 +67,25 @@ public class Hero : Entity
 
     private void Run()
     {
+        if (isGrounded) State = States.walking;
+
         Vector3 dir = transform.right * Input.GetAxis("Horizontal");
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, speed * Time.deltaTime);
 
-        sprite.flipX = dir.x < 0.0f;
+        if ((dir.x > 0 && !faceRight) || (dir.x < 0 && faceRight))
+        {
+            Vector3 temp = transform.localScale;
+            temp.x *= -1;
+            transform.localScale = temp;
+            faceRight = !faceRight;
+        }
     }
 
     private void Jump()
     {
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        sprite.enabled = false;
         Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
     }
 
@@ -76,5 +93,17 @@ public class Hero : Entity
     {
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.9f);
         isGrounded = collider.Length > 1;
+        if (!isGrounded) State = States.jump;
+        else
+        {
+            sprite.enabled = true;
+        }
+    }
+
+    public enum States
+    {
+        idle,
+        walking,
+        jump
     }
 }
