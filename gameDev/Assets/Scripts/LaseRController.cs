@@ -4,18 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class LaseRController : MonoBehaviour
+public class LaserController : MonoBehaviour
 {
 
-    public LineRenderer lineRenderer;
-    public Transform laserPosition;
-    private void Update()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right);
-        lineRenderer.SetPosition(0, laserPosition.position);
-        lineRenderer.SetPosition(1, hit.point);
-    }
-    /*[SerializeField] private float defDistanceRay = 100;
+    [SerializeField] private float defDistanceRay = 100;
     public Transform laserFirePoint;
     public LineRenderer m_lineRenderer;
     Transform m_transform;
@@ -36,7 +28,7 @@ public class LaseRController : MonoBehaviour
         {
             RaycastHit2D _hit = Physics2D.Raycast(laserFirePoint.position, transform.right);
             Draw2DRay(laserFirePoint.position, _hit.point);
-        } 
+        }
         else
         {
             Draw2DRay(laserFirePoint.position, laserFirePoint.transform.right * defDistanceRay);
@@ -47,5 +39,5 @@ public class LaseRController : MonoBehaviour
     {
         m_lineRenderer.SetPosition(0, startPos);
         m_lineRenderer.SetPosition(1, endPos);
-    }*/
+    }
 }

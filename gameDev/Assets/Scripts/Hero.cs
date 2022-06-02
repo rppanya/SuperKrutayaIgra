@@ -180,7 +180,7 @@ public class Hero : Entity
     private void Jump()
     {
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-        sprite.enabled = false;
+/*        sprite.enabled = false;*/
         Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
     }
 
@@ -190,10 +190,10 @@ public class Hero : Entity
         isGrounded = collider.Length > 1;
 <<<<<<< Updated upstream
         if (!isGrounded) State = States.jump;
-        else
+/*        else
         {
             sprite.enabled = true;
-        }
+        }*/
     }
 
 =======
