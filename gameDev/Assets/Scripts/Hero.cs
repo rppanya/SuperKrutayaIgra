@@ -85,7 +85,7 @@ public class Hero : Entity
     private void Jump()
     {
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-        sprite.enabled = false;
+/*        sprite.enabled = false;*/
         Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
     }
 
@@ -94,10 +94,10 @@ public class Hero : Entity
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.9f);
         isGrounded = collider.Length > 1;
         if (!isGrounded) State = States.jump;
-        else
+/*        else
         {
             sprite.enabled = true;
-        }
+        }*/
     }
 
     public enum States
