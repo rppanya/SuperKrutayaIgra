@@ -7,6 +7,7 @@ public class Hero : Entity
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lives = 3f;
     [SerializeField] private float jumpForce = 22f;
+    [SerializeField] private float jumpForce2 = 2f;
 
     BluePlatform[] blues;
     RedPlatform[] reds;
@@ -60,6 +61,11 @@ public class Hero : Entity
         Debug.Log(lives);
     }
 
+    public override void GetSpringJump()
+    {
+        rb.AddForce(transform.up * jumpForce2, ForceMode2D.Impulse);
+    }
+
     private States State
     {
         get { return (States)anim.GetInteger("state"); }
@@ -84,6 +90,13 @@ public class Hero : Entity
          CheckGround();
      }*/
 
+    public enum States
+    {
+        idle,
+        walking,
+        jump
+    }
+
     private void Start()
     {
         gravityStore = rb.gravityScale;
@@ -94,6 +107,7 @@ public class Hero : Entity
         if (wallJumpCounter <= 0)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
+            if (!isGrounded) State = States.jump;
             if (isGrounded) State = States.idle;
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
 
@@ -114,10 +128,12 @@ public class Hero : Entity
             if (rb.velocity.x > 0)
             {
                 transform.localScale = Vector3.one;
+                if (isGrounded) State = States.walking;
             }
             else if (rb.velocity.x < 0)
             {
                 transform.localScale = new Vector3(-1f, 1, 1f);
+                if (isGrounded) State = States.walking;
             }
 
             //handle wall jumping
@@ -136,6 +152,7 @@ public class Hero : Entity
             {
                 rb.gravityScale = 10f;
                 rb.velocity = Vector2.zero;
+                State = States.idle;
 
                 if (Input.GetButtonDown("Jump"))
                 {
@@ -164,7 +181,6 @@ public class Hero : Entity
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, speed * Time.deltaTime);
 
-<<<<<<< Updated upstream
         if ((dir.x > 0 && !faceRight) || (dir.x < 0 && faceRight))
         {
             Vector3 temp = transform.localScale;
@@ -173,7 +189,6 @@ public class Hero : Entity
             faceRight = !faceRight;
         }
     }
-=======
         //sprite.flipX = dir.x < 0.0f;
     }
 
@@ -181,27 +196,15 @@ public class Hero : Entity
     {
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
 /*        sprite.enabled = false;*/
-        Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
-    }
+}
 
-    private void CheckGround()
-    {
-        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.9f);
-        isGrounded = collider.Length > 1;
-<<<<<<< Updated upstream
-        if (!isGrounded) State = States.jump;
-/*        else
+/*private void CheckGround()
+{
+    Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.9f);
+    isGrounded = collider.Length > 1;
+    if (!isGrounded) State = States.jump;
+*//*        else
         {
             sprite.enabled = true;
-        }*/
-    }
-
-=======
+        }*//*
     }*/
-        public enum States
-    {
-        idle,
-        walking,
-        jump
-    }
-}

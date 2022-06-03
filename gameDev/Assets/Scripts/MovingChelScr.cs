@@ -7,6 +7,7 @@ public class MovingChelScr : Entity
     [SerializeField] private float speed = 3f;
     private Vector3 dir;
     private SpriteRenderer sprite;
+    private Rigidbody2D rb;
 
     private void Start()
     {
