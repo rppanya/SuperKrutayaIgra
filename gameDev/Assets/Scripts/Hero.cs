@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Hero : Entity
 {
-    [SerializeField] private float speed = 6f;
-    [SerializeField] private float lives = 5f;
-    [SerializeField] private float jumpForce = 40f;
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float lives = 3f;
+    [SerializeField] private float jumpForce = 22f;
 
     BluePlatform[] blues;
     RedPlatform[] reds;
@@ -23,7 +23,7 @@ public class Hero : Entity
     public Transform wallGrabPoint;
     private bool canGrab, isGrabbing;
     private float gravityStore;
-    public float wallJumpTime = .2f;
+    public float wallJumpTime = .3f;
     private float wallJumpCounter;
 
 
@@ -90,12 +90,12 @@ public class Hero : Entity
     }
     private void Update()
     {
-        if (isGrounded) State = States.idle;
-        if (Input.GetButton("Horizontal"))
+        //isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
         if (wallJumpCounter <= 0)
         {
-            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
             isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
+            if (isGrounded) State = States.idle;
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
 
             /*if (Input.GetButton("Horizontal"))
             {
@@ -134,7 +134,7 @@ public class Hero : Entity
 
             if (isGrabbing)
             {
-                rb.gravityScale = 5f;
+                rb.gravityScale = 10f;
                 rb.velocity = Vector2.zero;
 
                 if (Input.GetButtonDown("Jump"))
@@ -175,25 +175,25 @@ public class Hero : Entity
     }
 =======
         //sprite.flipX = dir.x < 0.0f;
-    }*/
+    }
 
-   /* private void Jump()
+    private void Jump()
     {
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-        sprite.enabled = false;
+/*        sprite.enabled = false;*/
         Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
-    }*/
+    }
 
-   /* private void CheckGround()
+    private void CheckGround()
     {
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.9f);
         isGrounded = collider.Length > 1;
 <<<<<<< Updated upstream
         if (!isGrounded) State = States.jump;
-        else
+/*        else
         {
             sprite.enabled = true;
-        }
+        }*/
     }
 
 =======
