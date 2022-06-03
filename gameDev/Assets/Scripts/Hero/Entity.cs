@@ -9,6 +9,11 @@ public class Entity : MonoBehaviour
 
     }
 
+    public virtual void GetSpringJump()
+    {
+
+    }
+
     public virtual void Die()
     {
         Destroy(this.gameObject);
