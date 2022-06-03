@@ -8,10 +8,18 @@ public class Hero : Entity
     [SerializeField] private float lives = 3f;
     [SerializeField] private float jumpForce = 22f;
 
-    BluePlatform[] blues;
-    RedPlatform[] reds;
-    GreenPlatform[] greens;
-
+    BluePlatform[] bluePlatforms;
+    RedPlatform[] redPlatforms;
+    GreenPlatform[] greenPlatforms;
+    YellowPlatform[] yellowPlatforms;
+    RedSpike[] redSpikes;
+    BlueSpike[] blueSpikes;
+    GreenSpike[] greenSpikes;
+    YellowSpike[] yellowSpikes;
+    RedLaser[] redLasers;
+    BlueLaser[] blueLasers;
+    GreenLaser[] greenLasers;
+    YellowLaser[] yellowLasers;
 
 
     public Transform groundCheckPoint;
@@ -36,21 +44,71 @@ public class Hero : Entity
 
     private Animator anim;
 
-    public void turnColliders(bool blueCon, bool redCon, bool greenCon)
+    public void turnColliders(bool blueCon, bool redCon, bool greenCon, bool yellowCon)
     {
-        foreach (BluePlatform block in blues)
+        //platforms
+        foreach (BluePlatform block in bluePlatforms)
         {
             block.turnCollider(blueCon);
         }
 
-        foreach (RedPlatform block in reds)
+        foreach (RedPlatform block in redPlatforms)
         {
             block.turnCollider(redCon);
         }
 
-        foreach (GreenPlatform block in greens)
+        foreach (GreenPlatform block in greenPlatforms)
         {
             block.turnCollider(greenCon);
+        }
+
+        foreach (YellowPlatform block in yellowPlatforms)
+        {
+            block.turnCollider(yellowCon);
+        }
+
+
+        //spikes
+        foreach (BlueSpike spike in blueSpikes)
+        {
+            spike.turnCollider(blueCon);
+        }
+
+        foreach (RedSpike spike in redSpikes)
+        {
+            spike.turnCollider(redCon);
+        }
+
+        foreach (GreenSpike spike in greenSpikes)
+        {
+            spike.turnCollider(greenCon);
+        }
+
+        foreach (YellowSpike spike in yellowSpikes)
+        {
+            spike.turnCollider(yellowCon);
+        }
+
+
+        //lasers
+        foreach(BlueLaser laser in blueLasers)
+        {
+            laser.turnCollider(blueCon);
+        }
+
+        foreach (RedLaser laser in redLasers)
+        {
+            laser.turnCollider(redCon);
+        }
+
+        foreach (GreenLaser laser in greenLasers)
+        {
+            laser.turnCollider(greenCon);
+        }
+
+        foreach (YellowLaser laser in yellowLasers)
+        {
+            laser.turnCollider(yellowCon);
         }
     }
 
@@ -68,15 +126,24 @@ public class Hero : Entity
 
     private void Awake()
     {
-        blues = Object.FindObjectsOfType<BluePlatform>();
-        reds = Object.FindObjectsOfType<RedPlatform>();
-        greens = Object.FindObjectsOfType<GreenPlatform>();
+        bluePlatforms = Object.FindObjectsOfType<BluePlatform>();
+        redPlatforms = Object.FindObjectsOfType<RedPlatform>();
+        greenPlatforms = Object.FindObjectsOfType<GreenPlatform>();
+        yellowPlatforms = Object.FindObjectsOfType<YellowPlatform>();
+        redSpikes = Object.FindObjectsOfType<RedSpike>();
+        blueSpikes = Object.FindObjectsOfType<BlueSpike>();
+        greenSpikes = Object.FindObjectsOfType<GreenSpike>();
+        yellowSpikes = Object.FindObjectsOfType<YellowSpike>();
+        redLasers = Object.FindObjectsOfType<RedLaser>();
+        blueLasers = Object.FindObjectsOfType<BlueLaser>();
+        greenLasers = Object.FindObjectsOfType<GreenLaser>();
+        yellowLasers = Object.FindObjectsOfType<YellowLaser>();
+
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponent<Animator>();
         Cloud = GameObject.Find("Cloud");
-        turnColliders(false, true, false);
     }
 
     /* private void FixedUpdate()
@@ -84,8 +151,16 @@ public class Hero : Entity
          CheckGround();
      }*/
 
+    public enum States
+    {
+        idle,
+        walking,
+        jump
+    }
+
     private void Start()
     {
+        turnColliders(true, false, false, false);
         gravityStore = rb.gravityScale;
     }
     private void Update()
@@ -94,6 +169,7 @@ public class Hero : Entity
         if (wallJumpCounter <= 0)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
+            if (!isGrounded) State = States.jump;
             if (isGrounded) State = States.idle;
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
 
@@ -114,10 +190,12 @@ public class Hero : Entity
             if (rb.velocity.x > 0)
             {
                 transform.localScale = Vector3.one;
+                if (isGrounded) State = States.walking;
             }
             else if (rb.velocity.x < 0)
             {
                 transform.localScale = new Vector3(-1f, 1, 1f);
+                if (isGrounded) State = States.walking;
             }
 
             //handle wall jumping
@@ -136,6 +214,7 @@ public class Hero : Entity
             {
                 rb.gravityScale = 10f;
                 rb.velocity = Vector2.zero;
+                State = States.idle;
 
                 if (Input.GetButtonDown("Jump"))
                 {
@@ -164,7 +243,6 @@ public class Hero : Entity
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, speed * Time.deltaTime);
 
-<<<<<<< Updated upstream
         if ((dir.x > 0 && !faceRight) || (dir.x < 0 && faceRight))
         {
             Vector3 temp = transform.localScale;
@@ -173,7 +251,6 @@ public class Hero : Entity
             faceRight = !faceRight;
         }
     }
-=======
         //sprite.flipX = dir.x < 0.0f;
     }
 
@@ -181,27 +258,15 @@ public class Hero : Entity
     {
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
 /*        sprite.enabled = false;*/
-        Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
     }
 
-    private void CheckGround()
+    /*private void CheckGround()
     {
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.9f);
         isGrounded = collider.Length > 1;
-<<<<<<< Updated upstream
         if (!isGrounded) State = States.jump;
-/*        else
+*//*        else
         {
             sprite.enabled = true;
-        }*/
-    }
-
-=======
+        }*//*
     }*/
-        public enum States
-    {
-        idle,
-        walking,
-        jump
-    }
-}

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class LaserController : MonoBehaviour
+public class LaseRController : MonoBehaviour
 {
 
     [SerializeField] private float defDistanceRay = 100;
