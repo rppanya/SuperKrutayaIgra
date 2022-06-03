@@ -20,6 +20,10 @@ public class Hero : Entity
     BlueLaser[] blueLasers;
     GreenLaser[] greenLasers;
     YellowLaser[] yellowLasers;
+    RedSpring[] redSprings;
+    BlueSpring[] blueSprings;
+    GreenSpring[] greenSprings;
+    YellowSpring[] yellowSprings;
 
 
     public Transform groundCheckPoint;
@@ -110,12 +114,39 @@ public class Hero : Entity
         {
             laser.turnCollider(yellowCon);
         }
+
+
+        //springs
+        foreach(BlueSpring spring in blueSprings)
+        {
+            spring.turnCollider(blueCon);
+        }
+
+        foreach (RedSpring spring in redSprings)
+        {
+            spring.turnCollider(redCon);
+        }
+
+        foreach (GreenSpring spring in greenSprings)
+        {
+            spring.turnCollider(greenCon);
+        }
+
+        foreach (YellowSpring spring in yellowSprings)
+        {
+            spring.turnCollider(yellowCon);
+        }
     }
 
     public override void GetDamage()
     {
         lives -= 1;
         Debug.Log(lives);
+    }
+
+    public void SpringJump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce * 1.5f);
     }
 
     private States State
@@ -138,6 +169,11 @@ public class Hero : Entity
         blueLasers = Object.FindObjectsOfType<BlueLaser>();
         greenLasers = Object.FindObjectsOfType<GreenLaser>();
         yellowLasers = Object.FindObjectsOfType<YellowLaser>();
+        redSprings = Object.FindObjectsOfType<RedSpring>();
+        blueSprings = Object.FindObjectsOfType<BlueSpring>();
+        greenSprings = Object.FindObjectsOfType<GreenSpring>();
+        yellowSprings = Object.FindObjectsOfType<YellowSpring>();
+
 
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
