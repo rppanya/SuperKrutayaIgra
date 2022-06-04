@@ -116,15 +116,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: greenJump_0
+      name: greenJump_2
       rect:
         serializedVersion: 2
-        x: 463
-        y: 604
-        width: 354
-        height: 311
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 853
+        y: 76
+        width: 351
+        height: 221
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3903741}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -137,15 +137,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: greenJump_7
+      name: greenJump_1
       rect:
         serializedVersion: 2
-        x: 463
-        y: 406
+        x: 444
+        y: 74
         width: 350
-        height: 183
+        height: 179
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -158,15 +158,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: greenJump_8
+      name: greenJump_0
       rect:
         serializedVersion: 2
-        x: 463
-        y: 144
-        width: 348
-        height: 233
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 8
+        y: 74
+        width: 356
+        height: 162
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5351017}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -174,6 +174,27 @@ TextureImporter:
       bones: []
       spriteID: 3c9a10e19ad3db64a9ffe8d952d8f33d
       internalID: 801665753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greenJump_3
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 73
+        width: 352
+        height: 307
+      alignment: 9
+      pivot: {x: 0.5, y: 0.29582503}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30c9ec75399651a43bdf65f761c4da27
+      internalID: -2124180189
       vertices: []
       indices: 
       edges: []
@@ -189,21 +210,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      greenJump_7: -489692269
       greenJump_6: -1412410341
       greenJump_11: 119542956
       greenJump_9: 455891809
       greenJump_14: -1616251034
-      greenJump_1: -2124180189
-      greenJump_2: -1629870786
-      greenJump_5: 2046520602
-      greenJump_0: 1959480412
-      greenJump_8: 801665753
-      greenJump_12: 1932429185
-      greenJump_13: -1269080041
-      greenJump_3: 655336278
-      greenJump_10: -16515130
-      greenJump_4: -1457454756
+      greenJump_1: -489692269
+      greenJump_2: 2046520602
+      greenJump_5: 1932429185
+      greenJump_0: -489692269
+      greenJump_12: 655336278
+      greenJump_13: -16515130
+      greenJump_3: -2124180189
+      greenJump_10: -489692269
+      greenJump_4: 801665753
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

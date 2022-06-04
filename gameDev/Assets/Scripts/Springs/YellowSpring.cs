@@ -5,12 +5,14 @@ using UnityEngine;
 public class YellowSpring : MonoBehaviour
 {
     BoxCollider2D cldr;
+    private Animator jumpAnim;
     public static YellowSpring Instance { get; set; }
 
     private void Awake()
     {
         Instance = this;
         cldr = GetComponent<BoxCollider2D>();
+        jumpAnim = GetComponent<Animator>();
     }
 
 
@@ -22,7 +24,12 @@ public class YellowSpring : MonoBehaviour
     {
         if (collision.gameObject == Hero.Instance.gameObject)
         {
+            jumpAnim.Play("yellowSpring");
             Hero.Instance.SpringJump();
+        }
+        else
+        {
+            jumpAnim.Play("yellowSpringIdle");
         }
     }
 }
