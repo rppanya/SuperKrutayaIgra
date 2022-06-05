@@ -138,6 +138,7 @@ public class Hero : Entity
         }
     }
 
+
     public override void GetDamage()
     {
         lives -= 1;
@@ -269,6 +270,11 @@ public class Hero : Entity
         {
             wallJumpCounter -= Time.deltaTime;
         }
+    }
+
+    public float GetLives()
+    {
+        return lives;
     }
 
     /*private void Run()

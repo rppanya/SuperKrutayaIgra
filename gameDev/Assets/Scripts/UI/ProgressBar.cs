@@ -9,8 +9,7 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Image image;
 
     [Header("Properties")]
-    [SerializeField] private int value;
-    [SerializeField] private int maxValue = 100;
+    
     [SerializeField] private bool isCorrectlyConfigured = false;
 
     private void Awake()
@@ -30,9 +29,9 @@ public class ProgressBar : MonoBehaviour
     private void LateUpdate()
     {
         if (!isCorrectlyConfigured) return;
-        image.fillAmount = (float)value / maxValue;
+        float lives = Hero.Instance.GetLives();
+        image.fillAmount = lives / 3.1f;
     }
 
-    public void SetValue(int value) => this.value = value;
-    public void SetMaxxValue(int maxValue) => this.maxValue = maxValue;
+   
 }
