@@ -39,7 +39,9 @@ public class Hero : MonoBehaviour
     private bool isGrounded = false;
     public bool faceRight = true;
     private bool timerRunning = false;
+    private bool onDamage = false;
     private float timer = 0f;
+    private float timerD = 0f;
     public GameObject Boost;
     public LayerMask whatIsGround;
 
@@ -206,6 +208,8 @@ public class Hero : MonoBehaviour
         lives -= 1;
         rb.velocity = new Vector2(-Input.GetAxisRaw("Horizontal") * 30f, jumpForce);
         Debug.Log(lives);
+        sprite.color = new Color(1, 0, 0);
+        onDamage = true;
         /*if(lives < 1)
         {
             Destroy(this.gameObject);
@@ -282,14 +286,23 @@ public class Hero : MonoBehaviour
         if (timerRunning)
         {
             turnColliders(false, false, false, false);
-            Debug.Log("false");
             timer += Time.smoothDeltaTime;
             if(timer >= invulnerableDuration)
             {
                 timerRunning = false;
                 timer = 0;
-                Debug.Log("true");
                 turnColliders(blueC, redC, greenC, yellowC);
+            }
+        }
+
+        if (onDamage)
+        {
+            timerD += Time.smoothDeltaTime;
+            if (timerD >= invulnerableDuration)
+            {
+                onDamage = false;
+                timerD = 0;
+                sprite.color = new Color(1, 1, 1);
             }
         }
 
