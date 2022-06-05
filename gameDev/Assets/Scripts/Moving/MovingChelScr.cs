@@ -6,8 +6,6 @@ public class MovingChelScr : Entity
 {
     [SerializeField] private float speed = 3f;
     private Vector3 dir;
-    private SpriteRenderer sprite;
-    private Rigidbody2D rb;
 
     private void Start()
     {
@@ -30,7 +28,7 @@ public class MovingChelScr : Entity
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + transform.up * 0.1f + transform.right * dir.x * 0.7f, 0.1f);
 
-        if(colliders.Length > 0)
+        if(colliders.Length > 1)
         {
             dir *= -1f;
         }
