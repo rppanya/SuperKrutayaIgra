@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : Entity
+public class Hero : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lives = 3f;
     [SerializeField] private float jumpForce = 22f;
+    [SerializeField] private float invulnerableDuration = 1.5f;
 
     BluePlatform[] bluePlatforms;
     RedPlatform[] redPlatforms;
@@ -24,21 +25,33 @@ public class Hero : Entity
     BlueSpring[] blueSprings;
     GreenSpring[] greenSprings;
     YellowSpring[] yellowSprings;
+    RedMove[] redMoves;
+    BlueMove[] blueMoves;
+    GreenMove[] greenMoves;
+    YellowMove[] yellowMoves;
+    RedBounce[] redBounces;
+    BlueBounce[] blueBounces;
+    GreenBounce[] greenBounces;
+    YellowBounce[] yellowBounces;
 
 
     public Transform groundCheckPoint;
     private bool isGrounded = false;
     public bool faceRight = true;
+    private bool timerRunning = false;
+    private float timer = 0f;
     public GameObject Boost;
     public LayerMask whatIsGround;
 
     public Transform wallGrabPoint;
+    private bool blueC, redC, yellowC, greenC;
     private bool canGrab, isGrabbing;
     private float gravityStore;
     public float wallJumpTime = .3f;
     private float wallJumpCounter;
 
 
+    private CircleCollider2D cldr;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Animator cloudanim;
@@ -50,6 +63,13 @@ public class Hero : Entity
 
     public void turnColliders(bool blueCon, bool redCon, bool greenCon, bool yellowCon)
     {
+        if (blueCon || redCon || yellowCon || greenCon)
+        {
+            blueC = blueCon;
+            redC = redCon;
+            greenC = greenCon;
+            yellowC = yellowCon;
+        }
         //platforms
         foreach (BluePlatform block in bluePlatforms)
         {
@@ -136,12 +156,61 @@ public class Hero : Entity
         {
             spring.turnCollider(yellowCon);
         }
+
+        //moves
+        foreach(BlueMove move in blueMoves)
+        {
+            move.turnCollider(blueCon);
+        }
+
+        foreach (RedMove move in redMoves)
+        {
+            move.turnCollider(redCon);
+        }
+
+        foreach (GreenMove move in greenMoves)
+        {
+            move.turnCollider(greenCon);
+        }
+
+        foreach (YellowMove move in yellowMoves)
+        {
+            move.turnCollider(yellowCon);
+        }
+
+
+        //bounces
+        foreach(BlueBounce bounce in blueBounces)
+        {
+            bounce.turnCollider(blueCon);
+        }
+
+        foreach (RedBounce bounce in redBounces)
+        {
+            bounce.turnCollider(redCon);
+        }
+
+        foreach (GreenBounce bounce in greenBounces)
+        {
+            bounce.turnCollider(greenCon);
+        }
+
+        foreach (YellowBounce bounce in yellowBounces)
+        {
+            bounce.turnCollider(yellowCon);
+        }
     }
 
-    public override void GetDamage()
+    public void GetDamage()
     {
         lives -= 1;
+        rb.velocity = new Vector2(-Input.GetAxisRaw("Horizontal") * 30f, jumpForce);
         Debug.Log(lives);
+        /*if(lives < 1)
+        {
+            Destroy(this.gameObject);
+        }*/
+        timerRunning = true;
     }
 
     public void SpringJump()
@@ -173,8 +242,17 @@ public class Hero : Entity
         blueSprings = Object.FindObjectsOfType<BlueSpring>();
         greenSprings = Object.FindObjectsOfType<GreenSpring>();
         yellowSprings = Object.FindObjectsOfType<YellowSpring>();
+        redMoves = Object.FindObjectsOfType<RedMove>();
+        blueMoves = Object.FindObjectsOfType<BlueMove>();
+        greenMoves = Object.FindObjectsOfType<GreenMove>();
+        yellowMoves = Object.FindObjectsOfType<YellowMove>();
+        redBounces = Object.FindObjectsOfType<RedBounce>();
+        blueBounces = Object.FindObjectsOfType<BlueBounce>();
+        greenBounces = Object.FindObjectsOfType<GreenBounce>();
+        yellowBounces = Object.FindObjectsOfType<YellowBounce>();
 
 
+        cldr = GetComponent<CircleCollider2D>();
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -201,6 +279,20 @@ public class Hero : Entity
     }
     private void Update()
     {
+        if (timerRunning)
+        {
+            turnColliders(false, false, false, false);
+            Debug.Log("false");
+            timer += Time.smoothDeltaTime;
+            if(timer >= invulnerableDuration)
+            {
+                timerRunning = false;
+                timer = 0;
+                Debug.Log("true");
+                turnColliders(blueC, redC, greenC, yellowC);
+            }
+        }
+
         //isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
         if (wallJumpCounter <= 0)
         {
