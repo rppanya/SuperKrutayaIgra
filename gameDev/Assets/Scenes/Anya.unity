@@ -54014,7 +54014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followingTarget: {fileID: 0}
-  parallaxStrength: 1
+  parallaxStrength: 0.53
   disableVerticalParallax: 0
 --- !u!212 &452604975
 SpriteRenderer:
@@ -58101,6 +58101,7 @@ MonoBehaviour:
   speed: 10
   lives: 3
   jumpForce: 22
+  invulnerableDuration: 1.5
   groundCheckPoint: {fileID: 1722191193}
   faceRight: 1
   Boost: {fileID: 0}
@@ -58729,7 +58730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followingTarget: {fileID: 0}
-  parallaxStrength: 1
+  parallaxStrength: 0.592
   disableVerticalParallax: 0
 --- !u!212 &1658488820
 SpriteRenderer:
@@ -60110,7 +60111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followingTarget: {fileID: 0}
-  parallaxStrength: 1
+  parallaxStrength: 0.618
   disableVerticalParallax: 0
 --- !u!212 &1986013013
 SpriteRenderer:
