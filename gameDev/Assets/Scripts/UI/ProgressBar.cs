@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ProgressBar : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private Image image;
+
 
     [Header("Properties")]
     
@@ -31,7 +33,11 @@ public class ProgressBar : MonoBehaviour
         if (!isCorrectlyConfigured) return;
         float lives = Hero.Instance.GetLives();
         image.fillAmount = lives / 3.1f;
+        if (image.fillAmount == 0)
+        {
+            //PauseMenu.Instance.Pause();
+            SceneManager.LoadScene(1);
+        }
     }
-
    
 }
