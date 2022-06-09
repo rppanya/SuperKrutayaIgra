@@ -41,6 +41,10 @@ public class Hero : MonoBehaviour
     BlueMPl[] blueMPls;
     GreenMPl[] greenMPls;
     YellowMPl[] yellowMPls;
+    RedLaserT[] redLaserTs;
+    BlueLaserT[] blueLaserTs;
+    GreenLaserT[] greenLaserTs;
+    YellowLaserT[] yellowLaserTs;
 
 
     public Transform groundCheckPoint;
@@ -230,6 +234,25 @@ public class Hero : MonoBehaviour
         {
             MPl.turnCollider(yellowCon);
         }
+
+
+        //laserTs
+        foreach(BlueLaserT laserT in blueLaserTs)
+        {
+            laserT.turnCollider(blueCon);
+        }
+        foreach (RedLaserT laserT in redLaserTs)
+        {
+            laserT.turnCollider(redCon);
+        }
+        foreach (GreenLaserT laserT in greenLaserTs)
+        {
+            laserT.turnCollider(greenCon);
+        }
+        foreach (YellowLaserT laserT in yellowLaserTs)
+        {
+            laserT.turnCollider(yellowCon);
+        }
     }
     public void GetDamage()
     {
@@ -287,6 +310,10 @@ public class Hero : MonoBehaviour
         blueMPls = Object.FindObjectsOfType<BlueMPl>();
         greenMPls = Object.FindObjectsOfType<GreenMPl>();
         yellowMPls = Object.FindObjectsOfType<YellowMPl>();
+        redLaserTs = Object.FindObjectsOfType<RedLaserT>();
+        blueLaserTs = Object.FindObjectsOfType<BlueLaserT>();
+        greenLaserTs = Object.FindObjectsOfType<GreenLaserT>();
+        yellowLaserTs = Object.FindObjectsOfType<YellowLaserT>();
 
         cldr = GetComponent<CircleCollider2D>();
         Instance = this;
@@ -377,7 +404,7 @@ public class Hero : MonoBehaviour
             }
             if (isGrabbing)
             {
-                rb.gravityScale = 10f;
+                rb.gravityScale = 20f;
                 rb.velocity = Vector2.zero;
                 State = States.idle;
                 if (Input.GetButtonDown("Jump"))
