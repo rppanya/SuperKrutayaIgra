@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuButton : MonoBehaviour
+public class TransitionBetweenScenes : MonoBehaviour
 {
+    public int id;
     public void PressButton()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(id);
         Time.timeScale = 1f;
     }
 }
