@@ -45,6 +45,7 @@ public class Hero : MonoBehaviour
     BlueLaserT[] blueLaserTs;
     GreenLaserT[] greenLaserTs;
     YellowLaserT[] yellowLaserTs;
+    Flying[] flys;
 
 
     public Transform groundCheckPoint;
@@ -81,6 +82,18 @@ public class Hero : MonoBehaviour
             redC = redCon;
             greenC = greenCon;
             yellowC = yellowCon;
+
+            foreach (Flying fly in flys)
+            {
+                fly.turnCollider(true);
+            }
+        }
+        else
+        {
+            foreach(Flying fly in flys)
+            {
+                fly.turnCollider(false);
+            }
         }
 
 
@@ -314,6 +327,7 @@ public class Hero : MonoBehaviour
         blueLaserTs = Object.FindObjectsOfType<BlueLaserT>();
         greenLaserTs = Object.FindObjectsOfType<GreenLaserT>();
         yellowLaserTs = Object.FindObjectsOfType<YellowLaserT>();
+        flys = Object.FindObjectsOfType<Flying>();
 
         cldr = GetComponent<CircleCollider2D>();
         Instance = this;

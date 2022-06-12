@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 90a047ddd876dd94d9df92bf2b8b1368
   - enabled: 1
-    path: Assets/Scenes/Anya.unity
-    guid: 0e4dba803ecbae54d83260611e69b24b
+    path: Assets/Scenes/SettingsMenu.unity
+    guid: 86781d5aa3e2fe54d976d9b1999711c8
+  - enabled: 1
+    path: Assets/Scenes/LevelsMenu.unity
+    guid: 0f9365940840e3a439c911edb0d071e0
+  - enabled: 1
+    path: Assets/Scenes/Level0.unity
+    guid: 5cb3b7f3cebe3744f95caf6ca7ea689f
   m_configObjects: {}
