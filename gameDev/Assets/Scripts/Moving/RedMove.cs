@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RedMove : Entity
 {
-    private float speed = 5f;
+    private float speed = 10f;
     private Vector3 dir;
     BoxCollider2D cldr;
 
@@ -47,7 +47,7 @@ public class RedMove : Entity
     }
     private void Move()
     {
-        if (Physics2D.OverlapCircle(wallCheckPointL.position, .1f, whatIsGround) || Physics2D.OverlapCircle(wallCheckPointR.position, .1f, whatIsGround))
+        if (Physics2D.OverlapCircle(wallCheckPointL.position, .01f, whatIsGround) || Physics2D.OverlapCircle(wallCheckPointR.position, .01f, whatIsGround))
         {
             dir *= -1f;
         }

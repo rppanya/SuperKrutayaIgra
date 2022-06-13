@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlueMPl : MonoBehaviour
 {
-    private float speed = 5f, dirF = 1f;
+    private float speed = 7f, dirF = 1f;
     private bool heroOnPlatform;
     private Vector3 dir;
     BoxCollider2D cldr;
@@ -54,7 +54,7 @@ public class BlueMPl : MonoBehaviour
     }
     private void Move()
     {
-        if (Physics2D.OverlapCircle(wallCheckPointL.position, .1f, whatIsGround) || Physics2D.OverlapCircle(wallCheckPointR.position, .1f, whatIsGround))
+        if (Physics2D.OverlapCircle(wallCheckPointL.position, .01f, whatIsGround) || Physics2D.OverlapCircle(wallCheckPointR.position, .01f, whatIsGround))
         {
             dir *= -1f;
             dirF *= -1f;
