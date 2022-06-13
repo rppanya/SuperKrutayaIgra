@@ -36,7 +36,7 @@ public class ProgressBar : MonoBehaviour
         if (image.fillAmount == 0)
         {
             //PauseMenu.Instance.Pause();
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
    
