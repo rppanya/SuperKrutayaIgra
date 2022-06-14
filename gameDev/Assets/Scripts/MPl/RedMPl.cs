@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class RedMPl : MonoBehaviour
 {
-    private float speed = 7f, dirF = 1f;
-    private bool heroOnPlatform;
-    private Vector3 dir;
+    private float speed = 7f;
+    private int i;
+
     BoxCollider2D cldr;
     [SerializeField] string direction;
-
-
-    public Transform wallCheckPointL, wallCheckPointR;
-    public LayerMask whatIsGround;
-
+    public Transform[] points;
 
     public static RedMPl Instance { get; set; }
 
@@ -27,25 +23,23 @@ public class RedMPl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (Hero.Instance.gameObject == collision.gameObject)
+        if (collision.gameObject == Hero.Instance.gameObject)
         {
-            heroOnPlatform = true;
+            Hero.Instance.transform.parent = transform;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        heroOnPlatform = false;
+        if (collision.gameObject == Hero.Instance.gameObject)
+        {
+            Hero.Instance.transform.parent = null;
+        }
     }
+
     public void turnCollider(bool condition)
     {
         cldr.enabled = condition;
-    }
-
-
-    private void Start()
-    {
-        dir = transform.right;
     }
 
     private void Update()
@@ -54,26 +48,14 @@ public class RedMPl : MonoBehaviour
     }
     private void Move()
     {
-        if (Physics2D.OverlapCircle(wallCheckPointL.position, .01f, whatIsGround) || Physics2D.OverlapCircle(wallCheckPointR.position, .01f, whatIsGround))
+        if (Vector2.Distance(transform.position, points[i].position) < 0.02f)
         {
-            dir *= -1f;
-            dirF *= -1f;
-        }
-        if (direction == "horizontal")
-        {
-            transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, speed * Time.deltaTime);
-            if (heroOnPlatform)
+            i++;
+            if(i == points.Length)
             {
-                Hero.Instance.transform.position = Vector3.MoveTowards(Hero.Instance.transform.position, Hero.Instance.transform.position + dir, speed * Time.deltaTime);
+                i = 0;
             }
         }
-        else
-        {
-            transform.position = new Vector2(transform.position.x, transform.position.y + Time.deltaTime * speed * dirF);
-            if (heroOnPlatform)
-            {
-                Hero.Instance.transform.position = new Vector2(Hero.Instance.transform.position.x, Hero.Instance.transform.position.y + Time.deltaTime * speed * dirF);
-            }
-        }
+        transform.position = Vector2.MoveTowards(transform.position, points[i].position, speed * Time.deltaTime);
     }
 }
