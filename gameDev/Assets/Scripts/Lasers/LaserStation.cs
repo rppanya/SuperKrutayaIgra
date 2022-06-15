@@ -6,6 +6,6 @@ public class LaserStation : MonoBehaviour
 {
     void Update()
     {
-        transform.Rotate(new Vector3(0, 0, 0.3f));
+        transform.Rotate(new Vector3(0, 0, 1.2f));
     }
 } 
