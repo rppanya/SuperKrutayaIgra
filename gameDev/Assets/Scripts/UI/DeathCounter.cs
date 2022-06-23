@@ -1,10 +1,11 @@
-/*using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DeathCounter : MonoBehaviour
 {
     private static int deathCount = 0;
-    [SerializeField] private Text textUIDeathCount;
+    [SerializeField] TextMeshProUGUI textUIDeathCount;
     public static DeathCounter deathCounter;
     public static DeathCounter Instance { get; set; }
 
@@ -14,11 +15,11 @@ public class DeathCounter : MonoBehaviour
     }
     public static void drawText()
     {
-        deathCounter.textUIDeathCount.text = "Смертей:  " + deathCount;
+        deathCounter.textUIDeathCount.text = "" + deathCount;
     }
     private void Update()
     {
-        deathCounter.textUIDeathCount.text = "Смертей:  " + deathCount;
+        deathCounter.textUIDeathCount.text = "" + deathCount;
     }
 
     public static void resetDeathCount()
@@ -32,4 +33,4 @@ public class DeathCounter : MonoBehaviour
         deathCount++;
         drawText();
     }
-}*/
+}
