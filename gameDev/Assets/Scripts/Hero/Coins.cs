@@ -11,7 +11,7 @@ public class Coins : MonoBehaviour
     {
         if (col.CompareTag("coin"))
         {
-            Destroy(col.gameObject);
+            Destroy(col.gameObject);          
             scoreText.text = (int.Parse(scoreText.text) + 1).ToString();
         }
     }
