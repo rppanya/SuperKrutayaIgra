@@ -40,6 +40,10 @@ public class Settings : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
+    public void SetVolume(int volume)
+    {
+        AudioListener.volume = volume;
+    }
 
    
     public void SaveSettings()
