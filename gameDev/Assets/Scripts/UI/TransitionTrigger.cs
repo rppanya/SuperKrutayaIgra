@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class TransitionTrigger : MonoBehaviour
 {
     public int id;
-    public GameObject trancisionPanel;
+    //public GameObject trancisionPanel;
+
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Animator anim = trancisionPanel.GetComponent<Animator>();
+       /* Animator anim = trancisionPanel.GetComponent<Animator>();
         anim.Play("transitionClose");
-        
 
-        SceneManager.LoadScene(id);
-        Time.timeScale = 1f;
+
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("transitionClose"))
+        {*/
+            SceneManager.LoadScene(id);
+            Time.timeScale = 1f;
+       // }
+
     }
 }
