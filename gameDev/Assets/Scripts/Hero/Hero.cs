@@ -70,7 +70,7 @@ public class Hero : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator cloudanim;
     public GameObject Cloud;
-
+    public AudioSource audioSourse;
 
     public static Hero Instance { get; set; }
     private Animator anim;
@@ -353,6 +353,7 @@ public class Hero : MonoBehaviour
     }
     private void Update()
     {
+        AudioListener.volume = PlayerPrefs.GetFloat("volume");
         if (timerRunning)
         {
             turnColliders(false, false, false, false);
@@ -389,6 +390,7 @@ public class Hero : MonoBehaviour
             }*/
             if (isGrounded && Input.GetButtonDown("Jump"))
             {
+                audioSourse.PlayOneShot(audioSourse.clip);
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 Boost = Instantiate(Resources.Load("Prefabs/Cloud"), transform.position, transform.rotation) as GameObject;
             }
